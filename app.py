@@ -5,7 +5,6 @@ import random
 import argparse
 import boto3
 
-
 app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
