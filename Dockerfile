@@ -1,13 +1,22 @@
 FROM ubuntu:20.04
-RUN apt-get update -y
+
+# Update and install dependencies
+RUN apt-get update -y && \
+    apt-get install -y python3-pip mysql-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy application files to /app directory
 COPY . /app
 WORKDIR /app
-RUN set -xe \
-    && apt-get update -y \
-    && apt-get install -y python3-pip \
-    && apt-get install -y mysql-client 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+
+# Upgrade pip and install Python dependencies
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Expose the application port
 EXPOSE 8080
-ENTRYPOINT [ "python3" ]
-CMD [ "app.py" ]
+
+# Define entry point and default command
+ENTRYPOINT ["python3"]
+CMD ["app.py"]
